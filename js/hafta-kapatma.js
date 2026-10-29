@@ -111,8 +111,6 @@ export function haftaIslemleri(wid) {
     const kay = (S.haftalar[wid] || {}).kayit;
     if (kay && kay.length) b += `<button class="btn" id="hKay">Kayıt</button>`;
   }
-  if (isIsveren() && hd === 'acik')
-    b += `<button class="btn" id="hListe">Listeyi hücrelerden geri kur</button>`;
   return b ? `<div class="actions hafta-is">${b}</div>` : '';
 }
 export function haftaIslemBagla(wid) {

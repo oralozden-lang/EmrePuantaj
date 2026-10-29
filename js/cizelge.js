@@ -65,7 +65,8 @@ export function renderCizelge() {
   const kisiler = cizelgeKisileri(wid);
   ROWS = kisiler.map(p => p.id);
   if (UI_cizelge.SEL && UI_cizelge.SEL.wid !== wid) UI_cizelge.SEL = null;
-  let h = `<div class="weeknav"><button class="nav-arrow" id="prevW" aria-label="Önceki hafta">‹</button><button class="ttl" id="thisW">${rangeLabel(wid)}<small>${mondayOf(today()) === wid ? 'Bu hafta' : 'Bu haftaya dön'}</small></button><button class="nav-arrow" id="nextW" aria-label="Sonraki hafta">›</button></div>`;
+  const menuVar = !(isSube() && haftaDurumu(wid) !== 'acik');
+  let h = `<div class="weeknav"><span class="wk-sp"></span><button class="nav-arrow" id="prevW" aria-label="Önceki hafta">‹</button><button class="ttl" id="thisW">${rangeLabel(wid)}<small>${mondayOf(today()) === wid ? 'Bu hafta' : 'Bu haftaya dön'}</small></button><button class="nav-arrow" id="nextW" aria-label="Sonraki hafta">›</button>${menuVar ? '<button class="islem-btn" id="islemB" aria-label="İşlemler" aria-expanded="false"></button>' : '<span class="wk-sp"></span>'}</div>`;
   if (!(sb.gunluk > 0 && sb.gunluk <= 16))
     h += `<div class="banner bad">Şube ayarlarında günlük mesai ${fmt(sb.gunluk)} saat görünüyor, bu yüzden fazla mesai yanlış hesaplanıyor. ${isIsveren() ? "Yönetim → Şubeler'den 8,5 olarak düzeltin." : 'İşverenden şube ayarını düzeltmesini isteyin.'}</div>`;
   if (isSube() && S.goc4 === false)
@@ -79,9 +80,7 @@ export function renderCizelge() {
     h += `<div class="banner">${isSube() ? 'Bu haftanın bir kısmı kapatılmış aya ait, o günler düzenlenemez.' : 'Bu haftanın bir kısmı kapatılmış aya ait. Yaptığınız değişiklik onaylanmış puantajı değiştirmez.'}</div>`;
   if (K.oneri && K.ids.length)
     h += `<div class="banner ok">Bu haftanın listesi geçen haftadan getirildi. Gelmeyeni ismine dokunup çıkarın, yeni geleni "+ ekle" ile ekleyin.</div>`;
-  h +=
-    `<div class="actions"><button class="btn grow" id="copyW">Geçen haftayı kopyala</button><button class="btn" id="undoB" ${undo.length ? '' : 'disabled'}>Geri al</button><button class="btn" id="shareB">Paylaş</button></div>` +
-    haftaIslemleri(wid);
+  h += haftaMenu(wid) + haftaIslemleri(wid);
   if (!S.loaded.personel || !S.loaded.haftalar)
     return view(h + `<div class="empty-state"><b>Vardiyalar yükleniyor</b></div>`, bindWeek);
   const akF = fmAyi(wid, sb);
@@ -126,7 +125,7 @@ export function renderCizelge() {
               const [s2, v2] = Object.entries(o)[0];
               h += `<div class="cell baska" data-r="${r}" data-c="${i}" title="${esc(subeAdi(s2))}: ${esc(degerYazi(v2))}"><b>${esc(kisaSubeAd(s2))}</b><small>${isShift(v2) ? esc(v2.replace('-', '–')) : KOD[v2] ? esc(KOD[v2].ad) : ''}</small></div>`;
             } else
-              h += `<${tag} class="cell empty ${bosSayilir(q, d) ? '' : 'serbest'}" ${at} aria-label="${esc(p.ad)} ${GUNU[i]} boş">${lk ? '' : '+'}</${tag}>`;
+              h += `<${tag} class="cell empty ${bosSayilir(q, d) ? '' : 'serbest'} ${ymd(d) > td ? 'gelecek' : ''}" ${at} aria-label="${esc(p.ad)} ${GUNU[i]} boş">${lk ? '' : '+'}</${tag}>`;
           }
         });
         h += `<div class="fmc">${fmH[0]}</div><div class="fmc ay">${fmH[1]}</div>`;
@@ -158,6 +157,14 @@ export function renderCizelge() {
         render();
       };
   });
+}
+export function haftaMenu(wid) {
+  const liste = isIsveren() && haftaDurumu(wid) === 'acik' && !weekDays(wid).some(kesinAy);
+  return `<div class="islem-menu" id="islemMenu" hidden>
+    <button class="menu-satir" id="copyW">Geçen haftayı kopyala<small>Geçen haftanın listesi ve saatleri</small></button>
+    <button class="menu-satir" id="undoB" ${undo.length ? '' : 'disabled'}>Geri al<small>Son değişikliği geri al</small></button>
+    <button class="menu-satir" id="shareB">Paylaş<small>Çizelgeyi görsel olarak gönder</small></button>
+    ${liste ? '<button class="menu-satir" id="hListe">Listeyi hücrelerden geri kur</button>' : ''}</div>`;
 }
 export function degerYazi(v) {
   return isShift(v) ? v.replace('-', ' – ') : v && KOD[v] ? KOD[v].ad : 'Boş';

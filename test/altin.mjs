@@ -14,6 +14,7 @@ const require = createRequire(import.meta.url);
 const { chromium } = require('playwright');
 const DIR = path.join(path.dirname(fileURLToPath(import.meta.url)), 'altin');
 const kaydet = process.argv.includes('--kaydet');
+const sadeceVeri = process.argv.includes('--sadece-veri');
 const secili = process.argv.slice(2).filter((a) => !a.startsWith('--'));
 
 const sade = (h) => h.replace(/\s+/g, ' ').replace(/> </g, '><').trim();
@@ -59,7 +60,7 @@ for (const sen of SENARYOLAR) {
   const eski = JSON.parse(fs.readFileSync(dosya, 'utf-8'));
   const farklar = [];
   if (eski.hata !== sonuc.hata) farklar.push(`hata: "${eski.hata}" → "${sonuc.hata}"`);
-  for (const et of new Set([...Object.keys(eski.ekranlar), ...Object.keys(sonuc.ekranlar)])) {
+  if (!sadeceVeri) for (const et of new Set([...Object.keys(eski.ekranlar), ...Object.keys(sonuc.ekranlar)])) {
     for (const bol of ['top', 'view', 'tabs', 'sheet', 'toast']) {
       const a = (eski.ekranlar[et] || {})[bol], c = (sonuc.ekranlar[et] || {})[bol];
       if (a !== c) farklar.push(`ekran[${et}].${bol} farklı`);

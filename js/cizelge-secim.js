@@ -32,6 +32,17 @@ export function bindWeek() {
     const e = byId(id);
     if (e) e.onclick = f;
   };
+  on('islemB', () => {
+    const m = byId('islemMenu');
+    if (!m) return;
+    m.hidden = !m.hidden;
+    byId('islemB').setAttribute('aria-expanded', String(!m.hidden));
+  });
+  const menu = byId('islemMenu');
+  if (menu)
+    menu.addEventListener('click', e => {
+      if (e.target.closest('button')) menu.hidden = true;
+    });
   on('copyW', kopyala);
   on('undoB', geriAl);
   on('shareB', paylas);

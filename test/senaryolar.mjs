@@ -32,7 +32,7 @@ export const SENARYOLAR = [
     await p.click('#prevW'); await bekle(p); await p.click('#hKilit'); await bekle(p, 300); await p.click('#hKilit'); await bekle(p, 1500);
   } },
   { ad: 'gecen-haftayi-kopyala-isveren', girisYapan: 'admin', adim: async (p, k) => {
-    await p.click('#copyW'); await bekle(p); await k('kopya-paneli'); await p.click('#cYes'); await bekle(p, 1500);
+    await p.click('#islemB'); await bekle(p, 300); await p.click('#copyW'); await bekle(p); await k('kopya-paneli'); await p.click('#cYes'); await bekle(p, 1500);
   } },
   // --- Hücre seçimi (SEL) ve dokunmatik kopyala modu (MOD) yolları ---
   { ad: 'secim-aralik-sil-sube', girisYapan: 'sube1', adim: async (p, k) => {
