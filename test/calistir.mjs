@@ -23,8 +23,8 @@ export function sunucu() {
 }
 
 // Sayfa: sahte Firebase + sabit saat. girisYapan: kullanıcı adı (giriş ekranını atlar)
-export async function sayfaAc(browser, port, { girisYapan = null, genislik = 390, yukseklik = 844, belgeler = tohum(), yol = '/index.html', hazirlik = null } = {}) {
-  const ctx = await browser.newContext({ viewport: { width: genislik, height: yukseklik }, deviceScaleFactor: 2, locale: 'tr-TR', timezoneId: 'Europe/Istanbul' });
+export async function sayfaAc(browser, port, { girisYapan = null, genislik = 390, yukseklik = 844, belgeler = tohum(), yol = '/index.html', hazirlik = null, renkSemasi = 'light' } = {}) {
+  const ctx = await browser.newContext({ viewport: { width: genislik, height: yukseklik }, deviceScaleFactor: 2, locale: 'tr-TR', timezoneId: 'Europe/Istanbul', colorScheme: renkSemasi });
   const page = await ctx.newPage();
   const hatalar = [];
   page.on('pageerror', (e) => hatalar.push('pageerror: ' + e.message));
