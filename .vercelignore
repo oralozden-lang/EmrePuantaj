@@ -1,0 +1,4 @@
+# Yayına girmeyecek dosyalar (test altyapısı, otomasyon betikleri)
+test/
+scripts/
+.github/
