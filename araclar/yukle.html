@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Yedekten yükle (TEST)</title>
+<style>
+  body{font:16px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif;margin:0;background:#f3f5f9;color:#152033}
+  main{max-width:560px;margin:0 auto;padding:16px 16px 48px}
+  h1{font-size:22px;margin:8px 0 4px}
+  h2{font-size:16px;margin:0 0 6px}
+  .note{color:#667287;font-size:14px;margin:4px 0}
+  .card{background:#fff;border:1px solid #e2e6ee;border-radius:14px;padding:14px;margin:12px 0}
+  label{display:block;font-weight:600;font-size:13px;margin:10px 0 4px}
+  input[type=text],input[type=password]{width:100%;box-sizing:border-box;padding:12px;border:1px solid #c9d1de;border-radius:10px;font:inherit}
+  input[type=file]{width:100%;font:inherit}
+  .row{display:flex;gap:8px;align-items:center;margin-top:10px}
+  button{font:inherit;min-height:48px;padding:0 18px;border:0;border-radius:12px;background:#1f3a6b;color:#fff;font-weight:700;width:100%;margin-top:12px}
+  button:disabled{opacity:.45}
+  .bad{background:#fde8e8;color:#b42323;padding:10px;border-radius:10px;margin-top:10px;font-size:14px}
+  .ok{background:#e3f4ea;color:#16774a;padding:10px;border-radius:10px;margin-top:10px;font-size:14px}
+  .warn{background:#fff2d6;color:#9a5b00;padding:10px;border-radius:10px;margin-top:10px;font-size:14px}
+  pre{white-space:pre-wrap;word-break:break-all;font-size:12px;background:#f3f5f9;padding:8px;border-radius:8px;max-height:260px;overflow:auto;margin:6px 0 0}
+  progress{width:100%;height:14px;margin-top:10px}
+  [hidden]{display:none!important}
+</style>
+</head>
+<body>
+<main>
+  <h1>Yedekten yükle</h1>
+  <p class="note">Emre'nin <b>Yönetim → Yedek → Yedek indir</b> dosyasını bu <b>TEST</b> projesine yükler. Aynı yoldaki belgelerin üzerine yazar.</p>
+  <div id="guvenlik" class="bad" hidden></div>
+
+  <section class="card" id="adim1">
+    <h2>1. İşveren girişi</h2>
+    <label for="kadi">Kullanıcı adı</label>
+    <input id="kadi" type="text" autocomplete="username" autocapitalize="none" value="admin">
+    <label for="sifre">Şifre</label>
+    <input id="sifre" type="password" autocomplete="current-password">
+    <button id="girisB">Giriş yap</button>
+    <div id="girisMesaj"></div>
+  </section>
+
+  <section class="card" id="adim2" hidden>
+    <h2>2. Yedek dosyası</h2>
+    <input id="dosya" type="file" accept=".json,application/json">
+    <div id="ozet"></div>
+    <div id="secenekler" hidden>
+      <div class="row"><input id="kulCheck" type="checkbox" checked><label for="kulCheck" style="margin:0">Kullanıcıları yeniden oluştur</label></div>
+      <p class="note">Yedekteki şube/bölge müdürleri için bu projede giriş hesabı açılır. İşveren <b>admin</b> atlanır.</p>
+      <label for="ortakSifre">Bu kullanıcıların ortak test şifresi (en az 6 karakter)</label>
+      <input id="ortakSifre" type="password" autocomplete="new-password">
+      <button id="yukleB">Yükle</button>
+    </div>
+  </section>
+
+  <section class="card" id="adim3" hidden>
+    <h2>3. Sonuç</h2>
+    <progress id="ilerle" value="0" max="1"></progress>
+    <div id="durum" class="note"></div>
+    <div id="sonuc"></div>
+  </section>
+</main>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, signOut, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore, doc, getDoc, setDoc, writeBatch, Timestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { firebaseConfig, GIRIS_ALANI } from "../config.js";
+
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const TEST_PROJE = 'puantaj-test';
+
+// Güvenlik: yalnızca test projesinde çalışır (canlı projeye yanlışlıkla yükleme yapılmasın)
+if (firebaseConfig.projectId !== TEST_PROJE) {
+  $('guvenlik').hidden = false;
+  $('guvenlik').textContent = `Bu araç yalnızca "${TEST_PROJE}" projesinde çalışır. Şu an bağlı proje: ${firebaseConfig.projectId}. Güvenlik için devre dışı.`;
+  document.querySelectorAll('button,input').forEach((e) => { e.disabled = true; });
+  throw new Error('Yanlış proje');
+}
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+let yedek = null;
+let girisKadi = '';
+
+const ascii = (s) => String(s || '').toLocaleLowerCase('tr-TR').replace(/ı/g, 'i').replace(/ğ/g, 'g').replace(/ü/g, 'u').replace(/ş/g, 's').replace(/ö/g, 'o').replace(/ç/g, 'c');
+const kadiNorm = (s) => ascii(s).replace(/[^a-z0-9._-]/g, '');
+const eposta = (k) => `${kadiNorm(k)}@${GIRIS_ALANI}`;
+const yol = (p) => doc(db, ...p.split('/'));
+
+/* ---------------- 1. Giriş ---------------- */
+$('girisB').onclick = async () => {
+  const b = $('girisB'); b.disabled = true; $('girisMesaj').innerHTML = '';
+  try {
+    const k = $('kadi').value.trim();
+    const c = await signInWithEmailAndPassword(auth, eposta(k), $('sifre').value);
+    const me = await getDoc(doc(db, 'kullanicilar', c.user.uid));
+    if (!me.exists() || me.data().rol !== 'isveren' || me.data().aktif !== true) {
+      await signOut(auth);
+      $('girisMesaj').innerHTML = '<div class="bad">Bu hesap işveren değil. Önce uygulamada "İlk kurulum"u tamamlayın.</div>';
+      b.disabled = false; return;
+    }
+    girisKadi = kadiNorm(k);
+    $('girisMesaj').innerHTML = `<div class="ok">Giriş yapıldı (${esc(me.data().adSoyad || k)}).</div>`;
+    $('adim2').hidden = false;
+  } catch (e) {
+    $('girisMesaj').innerHTML = `<div class="bad">Giriş yapılamadı: ${esc(e.code || e.message)}</div>`;
+    b.disabled = false;
+  }
+};
+
+/* ---------------- 2. Dosya ---------------- */
+$('dosya').onchange = async (ev) => {
+  $('ozet').innerHTML = ''; $('secenekler').hidden = true; yedek = null;
+  const f = ev.target.files[0]; if (!f) return;
+  try {
+    const j = JSON.parse(await f.text());
+    if (j.uygulama !== 'puantaj-merkezi' || !j.belgeler || typeof j.belgeler !== 'object') throw new Error('Bu bir Puantaj Merkezi yedeği değil.');
+    yedek = j;
+    const say = {};
+    Object.keys(j.belgeler).forEach((p) => { const k = p.split('/')[0]; say[k] = (say[k] || 0) + 1; });
+    $('ozet').innerHTML = `<div class="ok">${Object.keys(j.belgeler).length} belge · yedek tarihi ${esc((j.tarih || '').slice(0, 10))}</div>
+      <pre>${esc(Object.entries(say).map(([k, n]) => `${k}: ${n}`).join('\n'))}</pre>`;
+    $('secenekler').hidden = false;
+  } catch (e) {
+    $('ozet').innerHTML = `<div class="bad">${esc(e.message)}</div>`;
+  }
+};
+
+/* ---------------- Dönüşümler ---------------- */
+// Yedekte zaman damgaları {__zaman: ISO} olarak durur
+const canlandir = (v) => {
+  if (Array.isArray(v)) return v.map(canlandir);
+  if (v && typeof v === 'object') {
+    const k = Object.keys(v);
+    if (k.length === 1 && typeof v.__zaman === 'string') return Timestamp.fromMillis(Date.parse(v.__zaman));
+    return Object.fromEntries(Object.entries(v).map(([a, b]) => [a, canlandir(b)]));
+  }
+  return v;
+};
+// Güvenlik kuralları puantaj belgesine eski "veri" listesi yazdırmaz: satırlar veriM'e taşınır
+const veriTasi = (d) => {
+  if (!Array.isArray(d.veri)) return d;
+  const o = { ...d }; const M = { ...(d.veriM || {}) };
+  d.veri.forEach((v, i) => { if (!v) return; const id = v.id || ('_e' + i); if (!M[id]) M[id] = { ...v, id, sira: v.sira ?? i }; });
+  delete o.veri; o.veriM = M; return o;
+};
+// Yazma sırası: haftalar ay durumundan ÖNCE (kesin ayın haftaları kural gereği sonradan yazılamaz)
+const grup = (p) => {
+  const s = p.split('/');
+  if (s[0] === 'sistem') return 0;
+  if (s[0] === 'subeler' && s.length === 2) return 1;
+  if (s[0] === 'personel' || s[0] === 'ekPersonel' || (s[0] === 'subeler' && s[2] === 'personel')) return 2;
+  if (s[0] === 'subeler' && (s[2] === 'haftalar' || s[2] === 'durum')) return 3;
+  if (s[0] === 'puantaj') return 5;
+  if (s[0] === 'subeler' && s[2] === 'aylar') return 6;
+  return 4;
+};
+const ATLA = (p) => ['kullanicilar', 'sifreler', 'sifreIstek', 'kilitler'].includes(p.split('/')[0]) || p === 'sistem/kurulum';
+
+async function belgeleriYaz(ilerle) {
+  const ops = Object.entries(yedek.belgeler).filter(([p]) => !ATLA(p))
+    .map(([p, v]) => ({ yol: p, veri: canlandir(p.startsWith('puantaj/') ? veriTasi(v) : v), g: grup(p) }))
+    .sort((a, b) => a.g - b.g || a.yol.localeCompare(b.yol));
+  const hatalar = []; let yazilan = 0;
+  for (let i = 0; i < ops.length; i += 300) {
+    const dilim = ops.slice(i, i + 300);
+    try {
+      const b = writeBatch(db); dilim.forEach((o) => b.set(yol(o.yol), o.veri)); await b.commit(); yazilan += dilim.length;
+    } catch (e) {
+      for (const o of dilim) { try { await setDoc(yol(o.yol), o.veri); yazilan++; } catch (e2) { hatalar.push(`${o.yol} → ${e2.code || e2.message}`); } }
+    }
+    ilerle(Math.min(i + 300, ops.length), ops.length);
+  }
+  return { yazilan, toplam: ops.length, hatalar };
+}
+
+async function kullanicilariKur(sifre, ilerle) {
+  const liste = Object.entries(yedek.belgeler).filter(([p]) => p.startsWith('kullanicilar/'))
+    .map(([, v]) => v).filter((u) => u && u.kullaniciAdi && kadiNorm(u.kullaniciAdi) !== girisKadi);
+  const ikincil = getAuth(initializeApp(firebaseConfig, 'ikincil'));
+  const hatalar = []; let kurulan = 0;
+  for (let i = 0; i < liste.length; i++) {
+    const u = liste[i]; const em = eposta(u.kullaniciAdi);
+    try {
+      let uid;
+      try { uid = (await createUserWithEmailAndPassword(ikincil, em, sifre)).user.uid; }
+      catch (e) {
+        if (e.code !== 'auth/email-already-in-use') throw e;
+        try { uid = (await signInWithEmailAndPassword(ikincil, em, sifre)).user.uid; } // daha önce aynı şifreyle oluşturulmuş
+        catch { throw Object.assign(new Error('bu hesap zaten var ve şifresi farklı (Firebase → Authentication → Users\'tan silin ya da aynı şifreyi kullanın)'), { code: 'hesap-var-sifre-farkli' }); }
+      }
+      await setDoc(doc(db, 'kullanicilar', uid), { kullaniciAdi: kadiNorm(u.kullaniciAdi), adSoyad: u.adSoyad || u.kullaniciAdi, rol: u.rol, subeler: u.subeler || [], aktif: u.aktif !== false, olusturma: new Date().toISOString() });
+      await signOut(ikincil); kurulan++;
+    } catch (e) { hatalar.push(`${u.kullaniciAdi} → ${e.code || e.message}`); }
+    ilerle(i + 1, liste.length);
+  }
+  return { kurulan, toplam: liste.length, hatalar };
+}
+
+/* ---------------- 3. Yükle ---------------- */
+$('yukleB').onclick = async () => {
+  const kulIstek = $('kulCheck').checked; const sifre = $('ortakSifre').value;
+  if (kulIstek && sifre.length < 6) { $('sonuc').innerHTML = ''; $('adim3').hidden = false; $('sonuc').innerHTML = '<div class="bad">Ortak şifre en az 6 karakter olmalı.</div>'; return; }
+  $('yukleB').disabled = true; $('adim3').hidden = false; $('sonuc').innerHTML = '';
+  const dur = (m, a, b) => { $('durum').textContent = m; $('ilerle').max = b || 1; $('ilerle').value = a || 0; };
+  try {
+    const r = await belgeleriYaz((a, b) => dur(`Belgeler yazılıyor… ${a} / ${b}`, a, b));
+    let k = { kurulan: 0, toplam: 0, hatalar: [] };
+    if (kulIstek) k = await kullanicilariKur(sifre, (a, b) => dur(`Kullanıcılar oluşturuluyor… ${a} / ${b}`, a, b));
+    const hatalar = [...r.hatalar, ...k.hatalar];
+    dur('Tamamlandı', 1, 1);
+    $('sonuc').innerHTML = `<div class="${hatalar.length ? 'warn' : 'ok'}">Tamamlandı: ${r.yazilan}/${r.toplam} belge yazıldı${kulIstek ? `, ${k.kurulan}/${k.toplam} kullanıcı oluşturuldu` : ''}.${hatalar.length ? ` ${hatalar.length} sorun var:` : ''}</div>`
+      + (hatalar.length ? `<pre>${esc(hatalar.join('\n'))}</pre>` : '')
+      + '<p class="note">Şimdi uygulamayı açıp işveren olarak girin; bölge müdürü ilişkileri otomatik eşlenir.</p>';
+  } catch (e) {
+    $('sonuc').innerHTML = `<div class="bad">Yükleme durdu: ${esc(e.code || e.message)}</div>`;
+  }
+  $('yukleB').disabled = false;
+};
+</script>
+</body>
+</html>

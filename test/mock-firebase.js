@@ -8,6 +8,9 @@ export class Timestamp {
   toMillis() { return this._ms; }
   toDate() { return new Date(this._ms); }
   isEqual(o) { return o && o._ms === this._ms; }
+  static fromMillis(ms) { return new Timestamp(ms); }
+  static fromDate(d) { return new Timestamp(d.getTime()); }
+  static now() { return new Timestamp(simdi()); }
 }
 
 /* ------------------------------ Belge deposu ------------------------------ */
@@ -192,28 +195,36 @@ export const persistentMultipleTabManager = () => ({});
 
 /* ------------------------------ App / Auth ------------------------------ */
 export const initializeApp = (config, ad) => ({ __app: true, config, ad });
-const auth = { currentUser: null };
-const authDinleyiciler = new Set();
+const authlar = new Map();
+const authAl = (app) => {
+  const k = (app && app.ad) || '[default]';
+  if (!authlar.has(k)) authlar.set(k, { currentUser: null, _dinle: new Set() });
+  return authlar.get(k);
+};
 const kullaniciKayit = new Map(); // e-posta -> {uid, sifre}
-const authBildir = () => setTimeout(() => authDinleyiciler.forEach((f) => f(auth.currentUser)), 0);
-export const getAuth = () => auth;
+const authBildir = (a) => setTimeout(() => a._dinle.forEach((f) => f(a.currentUser)), 0);
+export const getAuth = (app) => authAl(app);
 export function onAuthStateChanged(a, cb) {
-  authDinleyiciler.add(cb);
-  setTimeout(() => cb(auth.currentUser), 0);
-  return () => authDinleyiciler.delete(cb);
+  a._dinle.add(cb);
+  setTimeout(() => cb(a.currentUser), 0);
+  return () => a._dinle.delete(cb);
 }
 export async function signInWithEmailAndPassword(a, eposta, sifre) {
   const k = kullaniciKayit.get(String(eposta).toLowerCase());
   if (!k || k.sifre !== sifre) { const e = new Error('invalid-credential'); e.code = 'auth/invalid-credential'; throw e; }
-  auth.currentUser = { uid: k.uid, email: eposta };
-  authBildir();
-  return { user: auth.currentUser };
+  a.currentUser = { uid: k.uid, email: eposta };
+  authBildir(a);
+  return { user: a.currentUser };
 }
-export async function signOut() { auth.currentUser = null; authBildir(); }
+export async function signOut(a) { a.currentUser = null; authBildir(a); }
 export async function createUserWithEmailAndPassword(a, eposta, sifre) {
+  const anahtar = String(eposta).toLowerCase();
+  if (kullaniciKayit.has(anahtar)) { const e = new Error('email-already-in-use'); e.code = 'auth/email-already-in-use'; throw e; }
   const uid = 'uid-' + Math.random().toString(36).slice(2, 10);
-  kullaniciKayit.set(String(eposta).toLowerCase(), { uid, sifre });
-  return { user: { uid, email: eposta } };
+  kullaniciKayit.set(anahtar, { uid, sifre });
+  a.currentUser = { uid, email: eposta };
+  authBildir(a);
+  return { user: a.currentUser };
 }
 export async function updatePassword(user, sifre) { const k = kullaniciKayit.get(String(user.email).toLowerCase()); if (k) k.sifre = sifre; }
 export async function deleteUser() {}
@@ -240,5 +251,5 @@ if (globalThis.__SEED) {
   store.clear();
   Object.entries(T.belgeler || {}).forEach(([y, v]) => store.set(y, tamCoz(v)));
   (T.kullanicilar || []).forEach((k) => kullaniciKayit.set(k.eposta.toLowerCase(), { uid: k.uid, sifre: k.sifre }));
-  if (T.girisYapan) { const k = kullaniciKayit.get(T.girisYapan.toLowerCase()); if (k) auth.currentUser = { uid: k.uid, email: T.girisYapan }; }
+  if (T.girisYapan) { const k = kullaniciKayit.get(T.girisYapan.toLowerCase()); if (k) authAl().currentUser = { uid: k.uid, email: T.girisYapan }; }
 }

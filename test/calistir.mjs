@@ -23,7 +23,7 @@ export function sunucu() {
 }
 
 // Sayfa: sahte Firebase + sabit saat. girisYapan: kullanıcı adı (giriş ekranını atlar)
-export async function sayfaAc(browser, port, { girisYapan = null, genislik = 390, yukseklik = 844, belgeler = tohum() } = {}) {
+export async function sayfaAc(browser, port, { girisYapan = null, genislik = 390, yukseklik = 844, belgeler = tohum(), yol = '/index.html', hazirlik = null } = {}) {
   const ctx = await browser.newContext({ viewport: { width: genislik, height: yukseklik }, deviceScaleFactor: 2, locale: 'tr-TR', timezoneId: 'Europe/Istanbul' });
   const page = await ctx.newPage();
   const hatalar = [];
@@ -42,7 +42,8 @@ export async function sayfaAc(browser, port, { girisYapan = null, genislik = 390
     Math.random = () => { t |= 0; t = (t + 0x6d2b79f5) | 0; let r = Math.imul(t ^ (t >>> 15), 1 | t); r = (r + Math.imul(r ^ (r >>> 7), 61 | r)) ^ r; return ((r ^ (r >>> 14)) >>> 0) / 4294967296; };
     globalThis.Date = SahteTarih; globalThis.__mockNow = simdi; globalThis.__SEED = seed;
   }, { bugun: BUGUN, seed });
-  await page.goto(`http://127.0.0.1:${port}/index.html`, { waitUntil: 'domcontentloaded' });
+  if (hazirlik) await hazirlik(page);
+  await page.goto(`http://127.0.0.1:${port}${yol}`, { waitUntil: 'domcontentloaded' });
   return { ctx, page, hatalar };
 }
 
