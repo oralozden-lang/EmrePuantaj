@@ -79,6 +79,56 @@
 .telefon.tema-b2 .parca button.aktif,.telefon.tema-b3 .parca button.aktif{background:var(--grad);color:#fff;box-shadow:0 5px 12px var(--glow)}
 .telefon.tema-b2 .ekle,.telefon.tema-b3 .ekle{background:linear-gradient(135deg,var(--vurgu-yumusak),color-mix(in srgb,var(--vurgu) 16%,var(--yuz)))}
 
+
+/* ---- D / D2: Lime-yeşil degrade (referans görüntülerden: açık limondan yaprak yeşiline, krem zemin) ---- */
+.tema-d{
+  --bg:#F1F0E7;--yuz:#FFFFFF;--yuz2:#E8E7DB;--cizgi:#DEDCCF;--yazi:#12281A;--soluk:#5F6B5E;
+  --vurgu:#217F3B;--vurgu-yazi:#fff;--vurgu-yumusak:#E0F2D3;
+  --ust-bg:linear-gradient(135deg,#A9EF72 0%,#74D858 48%,#3FB24F 100%);--ust-yazi:#0E2A14;--ust-soluk:rgba(14,42,20,.68);--ust-cizgi:transparent;
+  --grad-btn:linear-gradient(135deg,#4DBE45 0%,#1F8A3C 100%);--glow:rgba(33,127,59,.30);
+  --acilis:#F8E08A;--acilis-yazi:#4A3A00;--kapanis:#F2B766;--kapanis-yazi:#3F2400;
+  --bos:#FBE4E2;--bos-cizgi:#F0A9A3;--bos-yazi:#B3261E;
+  --izin:#23302D;--izin-y:#fff;--rapor:#CDEBC0;--rapor-y:#1F4A18;--yillik:#4F6B2A;--yillik-y:#fff;--ucretsiz:#1E3F66;--ucretsiz-y:#fff;--bayram:#E6E9E4;--bayram-y:#3A4A45;--part:#D93636;--part-y:#fff;
+  --iyi:#1F8A4B;--kotu:#C62828;--yaricap:16px;--hucre-yaricap:10px;
+}
+.tema-d2{--ust-bg:linear-gradient(135deg,#14592A 0%,#23823A 55%,#3FAE4C 100%);--ust-yazi:#fff;--ust-soluk:rgba(255,255,255,.78)}
+.tema-d.koyu{
+  --bg:#0D160F;--yuz:#152019;--yuz2:#1C2A21;--cizgi:#243629;--yazi:#E4F0E5;--soluk:#8FA593;
+  --vurgu:#8DE457;--vurgu-yazi:#0D160F;--vurgu-yumusak:#1C3321;
+  --ust-bg:linear-gradient(135deg,#14502A 0%,#1F7A37 60%,#2E9A47 100%);--ust-yazi:#fff;--ust-soluk:rgba(255,255,255,.75);
+  --grad-btn:linear-gradient(135deg,#3FAE4C 0%,#176B30 100%);--glow:rgba(0,0,0,.45);
+  --acilis:#DEC35C;--acilis-yazi:#221A00;--kapanis:#DB9A52;--kapanis-yazi:#241100;
+  --bos:#3A1D1B;--bos-cizgi:#7C332D;--bos-yazi:#F4A8A2;
+  --izin:#2A3B35;--izin-y:#E4EFEA;--rapor:#1E4A32;--rapor-y:#CDEBC0;--yillik:#3E5A1F;--yillik-y:#E7F5CF;--ucretsiz:#1E3F66;--ucretsiz-y:#DCEBFA;--bayram:#26352F;--bayram-y:#C3D3CC;--part:#B42727;
+  --iyi:#6FE0A0;--kotu:#F2837D;
+}
+.tema-d2.koyu{--ust-bg:linear-gradient(135deg,#0D3E1E 0%,#16632B 60%,#238A3E 100%)}
+/* başlık öğeleri */
+.telefon.tema-d .sube-hap,.telefon.tema-d .bugun-dugme{background:rgba(255,255,255,.55);color:#0E2A14}
+.telefon.tema-d .rozet{background:#3E7E2D;color:#fff}
+.telefon.tema-d .rozet i{background:#C8F58A}
+.telefon.tema-d2 .sube-hap,.telefon.tema-d2 .bugun-dugme,.telefon.tema-d.koyu .sube-hap,.telefon.tema-d.koyu .bugun-dugme{background:rgba(255,255,255,.18);color:#fff}
+.telefon.tema-d2 .rozet,.telefon.tema-d.koyu .rozet{background:rgba(0,0,0,.28)}
+.telefon.tema-d .ust{box-shadow:0 8px 22px var(--glow);border-bottom:0}
+/* vurgular: degrade */
+.telefon.tema-d .gun.bugun{background:var(--grad-btn);color:#fff;box-shadow:0 5px 12px var(--glow)}
+.telefon.tema-d .gun.bugun b{color:#fff}
+.telefon.tema-d .birincil{background:var(--grad-btn);color:#fff!important;box-shadow:0 10px 22px var(--glow)}
+.telefon.tema-d .kpi div.vurgulu{background:linear-gradient(135deg,#A9EF72 0%,#4DBE45 100%);border-color:transparent;box-shadow:0 10px 22px var(--glow)}
+.telefon.tema-d .kpi div.vurgulu small,.telefon.tema-d .kpi div.vurgulu b{color:#0E2A14}
+.telefon.tema-d2 .kpi div.vurgulu,.telefon.tema-d.koyu .kpi div.vurgulu{background:linear-gradient(135deg,#14592A 0%,#2E9A47 100%)}
+.telefon.tema-d2 .kpi div.vurgulu small,.telefon.tema-d2 .kpi div.vurgulu b,.telefon.tema-d.koyu .kpi div.vurgulu small,.telefon.tema-d.koyu .kpi div.vurgulu b{color:#fff}
+/* alt gezinme: tam genişlik, seçili simge degrade hapta */
+.tema-d .nav{background:var(--yuz);border-top:1px solid var(--cizgi);padding:4px 6px calc(4px + env(safe-area-inset-bottom,0px))}
+.tema-d .nav button{flex:1}
+.tema-d .ikon-kutu{display:grid;place-items:center;width:54px;height:28px;border-radius:14px}
+.telefon.tema-d .nav button.aktif .ikon-kutu{background:var(--grad-btn);color:#fff;box-shadow:0 5px 12px var(--glow)}
+/* bölüm sekmeleri: çerçeveli hap (referanstaki "Tümü / Diğer" gibi) */
+.telefon.tema-d .parca{background:transparent;padding:0;gap:8px}
+.telefon.tema-d .parca button{border:1.5px solid var(--cizgi);background:var(--yuz);border-radius:999px;color:var(--soluk)}
+.telefon.tema-d .parca button.aktif{border-color:var(--vurgu);color:var(--vurgu);background:var(--yuz);box-shadow:none}
+.telefon.tema-d .ekle{background:var(--vurgu-yumusak);color:var(--vurgu)}
+
 /* ============ Sayfa çerçevesi ============ */
 *{box-sizing:border-box}
 html,body{margin:0}
@@ -222,9 +272,11 @@ body.koyu-sayfa{background:#0A0D14}
 </head>
 <body>
 <div class="kontrol" id="kontrol">
+  <button data-yon="d" class="secili">D1 Lime</button>
+  <button data-yon="d2">D2 Koyu başlık</button>
+  <button data-yon="b2">B Degrade</button>
   <button data-yon="b">B Teal</button>
-  <button data-yon="b2" class="secili">B Degrade</button>
-  <button data-yon="b3">B Canlı degrade</button>
+  <button data-yon="b3">B Canlı</button>
   <button data-yon="a">A İndigo</button>
   <button data-yon="c">C Lacivert</button>
   <button data-yon="yan">Karşılaştır</button>
@@ -343,13 +395,13 @@ function telefon(tema, mod) {
   return kok;
 }
 
-let yon = new URLSearchParams(location.search).get('yon') || 'b2';
+let yon = new URLSearchParams(location.search).get('yon') || 'd';
 let mod = new URLSearchParams(location.search).get('mod') || 'acik';
-const AD = { a: 'A · İndigo modern', b: 'B · Teal (düz)', b2: 'B2 · Teal degrade', b3: 'B3 · Teal canlı degrade', c: 'C · Lacivert düzenli' };
-const SINIF = { a: 'tema-a', b: 'tema-b', b2: 'tema-b tema-b2', b3: 'tema-b tema-b3', c: 'tema-c' };
+const AD = { a: 'A · İndigo modern', b: 'B · Teal (düz)', b2: 'B2 · Teal degrade', b3: 'B3 · Teal canlı degrade', c: 'C · Lacivert düzenli', d: 'D1 · Lime degrade (açık başlık)', d2: 'D2 · Lime degrade (koyu başlık)' };
+const SINIF = { a: 'tema-a', b: 'tema-b', b2: 'tema-b tema-b2', b3: 'tema-b tema-b3', c: 'tema-c', d: 'tema-d', d2: 'tema-d tema-d2' };
 function render() {
   const sahne = document.getElementById('sahne'); sahne.innerHTML = '';
-  (yon === 'yan' ? ['b', 'b2', 'b3'] : [yon]).forEach((t) => {
+  (yon === 'yan' ? ['b2', 'd', 'd2'] : [yon]).forEach((t) => {
     const w = document.createElement('div');
     w.innerHTML = `<p class="etiket">${AD[t]}</p>`; w.appendChild(telefon(t, mod)); sahne.appendChild(w);
   });
