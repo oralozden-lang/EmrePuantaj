@@ -68,6 +68,7 @@ test('O-2 fazla mesai saat ücreti (fmSaatUcreti)', () => {
   const maas = { fmYontem: 'maas' };
   assert.equal(PH.fmSaatUcreti(maas, 37000, '2026-09'), 137, 'Eylül 2026\'dan küsurat atılır');
   assert.ok(Math.abs(PH.fmSaatUcreti(maas, 37000, '2026-08') - 137.037037) < 1e-5, 'eski aylar kuruşlu');
+  assert.equal(PH.fmSaatUcreti(maas, 38000, '2026-09'), 140, 'küsurat 0,74: yuvarlanmaz, atılır (141 değil)');
   assert.equal(PH.fmSaatUcreti(maas, 0, '2026-09'), 0);
   assert.equal(PH.fmKisiUcreti(sabit, 37000, { fmOzel: 200, ak: '2026-10' }), 200, 'kişiye özel ücret');
 });
