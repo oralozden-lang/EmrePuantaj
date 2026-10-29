@@ -4,12 +4,15 @@ import { AYK, subeAdi } from './sabitler.js';
 import { db } from './firebase.js';
 import { S, subs, tryLS } from './durum.js';
 import { addDays, esc, mondayOf, parse, rangeLabel, today, ymd } from './yardimci.js';
-import { cizelgeKisileri, gunleriYukle, kisaSubeAd } from './cok-sube.js';
+import { gunleriYukle } from './cok-sube.js';
+import { cizelgeKisileri, kisaSubeAd } from './kadro.js';
 import { sunucuHazir } from './hucre-yazma.js';
 import { selectSube } from './subeler.js';
 import { byId, render } from './cerceve.js';
 import { closeSheet, openSheet, toast } from './panel.js';
-import { KAPATMA_GUN, haftaAylari, haftaBitti, haftaGecikti, haftaGeriPanel, haftaKapatPanel, haftaKilidiAc, haftaKontrol, haftaOnayPanel, haftaOnayla, haftaPazar, tarihSaat } from './hafta-kapatma.js';
+import { KAPATMA_GUN, haftaAylari, haftaBitti, haftaGecikti, haftaPazar, tarihSaat } from './hafta-kapatma.js';
+import { haftaKapatPanel, haftaKontrol } from './hafta-kontrol.js';
+import { haftaGeriPanel, haftaKilidiAc, haftaOnayPanel, haftaOnayla } from './hafta-islem.js';
 
 /* ================= Haftalar: şubelerin haftalık kapatma takibi (bölge müdürü + işveren) ================= */
 const TK_HAFTA=4;

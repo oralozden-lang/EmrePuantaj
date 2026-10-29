@@ -12,7 +12,7 @@ import { renderCizelge } from './cizelge.js';
 import { renderPersonel } from './personel.js';
 import { renderAy } from './ay-sonu.js';
 import { puantajAc, renderPuantaj } from './puantaj.js';
-import { veriBosTemizle } from './veri-girisi.js';
+import { veriBosTemizle } from './veri-girisi-bagla.js';
 import { renderYonetim } from './yonetim.js';
 
 /* ================= Çizim çerçevesi ================= */

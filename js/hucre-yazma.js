@@ -5,13 +5,15 @@ import { S, undo } from './durum.js';
 import { addDays, ayKey, gosterAy, isShift, parse, weekDays, ymd } from './yardimci.js';
 import { vardiyaKontrol } from './saat.js';
 import { isSube } from './rol.js';
-import { cellOf, fmAyi, sube, subeAyari } from './hesap.js';
-import { cakismaMesaj, cokSubeli, digerGunler, gunCakisir, gunYaz, kadroOf } from './cok-sube.js';
+import { cellOf, sube, subeAyari } from './hesap.js';
+import { fmAyi } from './fm-donem.js';
+import { cakismaMesaj, cokSubeli, digerGunler, gunCakisir, gunYaz } from './cok-sube.js';
+import { kadroOf } from './kadro.js';
 import { sirayla, weekRef } from './yazma.js';
 import { czK, kilitAl, kilitBaskasi, kilitEngel, kilitMesaj } from './kilit.js';
 import { render } from './cerceve.js';
 import { toast } from './panel.js';
-import { kapaliHaftaGuncelle } from './hafta-kapatma.js';
+import { kapaliHaftaGuncelle } from './hafta-islem.js';
 
 function undoKaydet(wid){const w0=S.haftalar[wid]||{};undo.push({wid,cells:JSON.parse(JSON.stringify(w0.cells||{})),kadro:Array.isArray(w0.kadro)?w0.kadro.slice():null});if(undo.length>40)undo.shift();}
 // Haftanın durumu: acik (şube düzenler) · kapali (şube kapattı, bölge onayı bekliyor) · onay (bölge onayladı). Şube müdürü kapalı haftayı göremez.

@@ -7,8 +7,8 @@ import { isBolge, isIsveren, isSube } from './rol.js';
 import { yazmaHatasi } from './yazma.js';
 import { render } from './cerceve.js';
 import { toast } from './panel.js';
-import { UI } from './cizelge.js';
-import { DOGRU_ISIMLER, adBuyuk, isimEslestir } from './excel-aktar.js';
+import { UI_cizelge } from './cizelge.js';
+import { DOGRU_ISIMLER, adBuyuk, isimEslestir } from './isim-esle.js';
 
 /* ================= Şubeler ================= */
 export function subeleriDinle(){subs.subeDocs.forEach(u=>u());subs.subeDocs=[];
@@ -79,7 +79,7 @@ async function gocKontrol(){if(!isIsveren()||S.gocBakildi||!S.subeIds.length||!S
     for(const sid of S.subeIds){const q=await getDocs(collection(db,'subeler',sid,'personel'));const b=writeBatch(db);let k=0;
       q.docs.forEach(d=>{if(var_.has(d.id))return;b.set(doc(db,'personel',d.id),{...d.data(),anaSube:sid});k++;n++;});if(k)await b.commit();}
     await setDoc(doc(db,'sistem','goc'),{v2:true,tarih:new Date().toISOString(),tasinan:n},{merge:true});if(n)toast(`${n} personel şirket geneli listeye taşındı.`);}catch(e){console.error(e);S.gocBakildi=false;}}
-export function selectSube(id){subs.sube.forEach(u=>u());subs.sube=[];S.tcler={};S.subeId=id;S.haftalar={};S.aylar={};S.haftaDurum={w:{}};S.loaded.haftalar=false;undo.length=0;UI.SEL=null;UI.MOD=null;tryLS('pm.sube',id);
+export function selectSube(id){subs.sube.forEach(u=>u());subs.sube=[];S.tcler={};S.subeId=id;S.haftalar={};S.aylar={};S.haftaDurum={w:{}};S.loaded.haftalar=false;undo.length=0;UI_cizelge.SEL=null;UI_cizelge.MOD=null;tryLS('pm.sube',id);
   // Şube müdürü sadece açık haftaları okur (kapatılan hafta ona gizlidir); bölge müdürü ve işveren hepsini.
   const hq=isSube()?query(collection(db,'subeler',id,'haftalar'),where('hd','==','acik')):collection(db,'subeler',id,'haftalar');
   S.haftalarSunucu=false;subs.sube.push(onSnapshot(hq,{includeMetadataChanges:true},s=>{if(S.subeId!==id)return;const m={};s.docs.forEach(d=>m[d.id]=d.data());S.haftalar=m;S.loaded.haftalar=true;S.haftalarSunucu=!s.metadata.fromCache;render();},e=>yazmaHatasi(e)));

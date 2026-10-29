@@ -2,12 +2,15 @@
 import { AY, BOS_RENK, GRUP, GRUP_SIRA, GUNU, KOD, KOD_RENK, KOD_SIRA } from './sabitler.js';
 import { S, tryLS } from './durum.js';
 import { esc, fmt, gosterAy, isShift, rangeLabel, sg, shiftKind, weekDays } from './yardimci.js';
-import { cellOf, fmAyi, isEsnaf, sube } from './hesap.js';
-import { ayKadarS, bosSayilir, cizelgeKisileri, cokSubeli, digerGunler, gunKaydiP, haftaHesapS, kisaSubeAd } from './cok-sube.js';
+import { cellOf, isEsnaf, sube } from './hesap.js';
+import { fmAyi } from './fm-donem.js';
+import { bosSayilir, cokSubeli, digerGunler } from './cok-sube.js';
+import { ayKadarS, cizelgeKisileri, gunKaydiP, haftaHesapS, kisaSubeAd } from './kadro.js';
 import { haftaAyari } from './hucre-yazma.js';
 import { byId } from './cerceve.js';
 import { openSheet, toast } from './panel.js';
-import { jspdfLib, trBuyukBas } from './cikti.js';
+import { trBuyukBas } from './odeme-cikti.js';
+import { jspdfLib } from './muhasebe-cikti.js';
 
 /* ================= Paylaş (görsel) ================= */
 async function cizelgeGorseli(withFm,gruplar){const wid=S.hafta;const sb=haftaAyari(wid);const ds=weekDays(wid);const ak=gosterAy(wid);const kisiler=cizelgeKisileri(wid).filter(p=>!gruplar||gruplar.includes(p.grup||'K'));

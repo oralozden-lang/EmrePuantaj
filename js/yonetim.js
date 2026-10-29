@@ -12,8 +12,10 @@ import { sunucuHazir } from './hucre-yazma.js';
 import { selectSube } from './subeler.js';
 import { byId, render, view } from './cerceve.js';
 import { closeSheet, openSheet, toast } from './panel.js';
+import { renderIbanBolum } from './iban-listesi.js';
 import { excelAktarPanel } from './excel-aktar.js';
-import { renderIbanBolum, renderIscilik, renderYedek } from './iscilik.js';
+import { renderYedek } from './yedek.js';
+import { renderIscilik } from './iscilik.js';
 import { kullaniciPanel, sifreOf } from './kullanici.js';
 
 /* ================= Yönetim (işveren) ================= */

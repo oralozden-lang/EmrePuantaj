@@ -1,8 +1,8 @@
 // sabitler.js — app.js (v180) satırları 7-84. Otomatik bölündü; davranış değişmedi.
 import { S } from './durum.js';
 import { ayKaydir, ayKey, isimAnahtar, sayi, today } from './yardimci.js';
-import { sgkGunSayisi } from './hesap.js';
-import { ayniKisi } from './cok-sube.js';
+import { sgkGunSayisi } from './hesap-ay.js';
+import { ayniKisi } from './ay-ozet.js';
 import { render } from './cerceve.js';
 import { toast } from './panel.js';
 

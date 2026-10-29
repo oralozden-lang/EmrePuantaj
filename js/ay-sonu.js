@@ -4,13 +4,17 @@ import { AYK, BASLANGIC_AY, DURUM, GRUP, GUN, KOD, aktifAy, ayGit } from './sabi
 import { arka, db, setDoc, writeBatch } from './firebase.js';
 import { S, tryLS } from './durum.js';
 import { addDays, ayAdi, ayKaydir, ayKey, bas, esc, fmt, isShift, kisaAd, mondayOf, parse, rangeLabel, sg, today, trTarih, weekDays, ymd } from './yardimci.js';
-import { aktifAyda, ayHesap, cellOf, employed, fmDonemYazi, fmHaftalari, fmSecici, fmSeciciBagla, isEsnaf, sirala, sube, weekHasEntry } from './hesap.js';
-import { ayKadroIds, ayKadrosu, bosSayilir, subeOzeti } from './cok-sube.js';
+import { aktifAyda, cellOf, employed, isEsnaf, sirala, sube, weekHasEntry } from './hesap.js';
+import { ayHesap } from './hesap-ay.js';
+import { fmDonemYazi, fmHaftalari, fmSecici, fmSeciciBagla } from './fm-donem.js';
+import { bosSayilir } from './cok-sube.js';
+import { ayKadroIds, ayKadrosu } from './kadro.js';
+import { subeOzeti } from './ay-ozet.js';
 import { sirayla, weekRef } from './yazma.js';
 import { byId, render, view } from './cerceve.js';
 import { closeSheet, openSheet, toast } from './panel.js';
 import { subePersoneli } from './personel.js';
-import { trBuyukBas } from './cikti.js';
+import { trBuyukBas } from './odeme-cikti.js';
 
 /* ================= Ay sonu (şube müdürü) ================= */
 // Ay sonu kontrol listesi
