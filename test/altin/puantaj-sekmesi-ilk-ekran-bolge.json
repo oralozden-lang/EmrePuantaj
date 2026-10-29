@@ -1,0 +1,45 @@
+{
+ "ad": "puantaj-sekmesi-ilk-ekran-bolge",
+ "hata": "",
+ "ekranlar": {
+  "son": {
+   "top": "<div class=\"top-row\"><div class=\"grow\"><button class=\"sube-btn eyebrow\" id=\"subeBtn\">Bölge müdürü · Test Bölge</button><h1>Puantaj</h1></div><button class=\"icon-btn yardim-btn \" id=\"yardimBtn\" aria-label=\"Açıklamalar\" title=\"Açıklamaları göster / gizle\">?</button><button class=\"icon-btn\" id=\"hesapBtn\" aria-label=\"Hesap\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"><circle cx=\"12\" cy=\"8\" r=\"4\"></circle><path d=\"M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6\"></path></svg></button></div>",
+   "view": "<div class=\"ptbar\"><button class=\"ptback\" id=\"geriL\" aria-label=\"Şube listesine dön\"><span aria-hidden=\"true\">‹</span> Şubeler</button><span class=\"chip mut ptdurum\">Taslak</span></div><div class=\"ptnav\"><div class=\"ptsube\"><span class=\"ptcap\">Şube</span><div class=\"ptsel\"><select id=\"ptSube\" aria-label=\"Şube seç\"><option value=\"merkez\" selected=\"\">Merkez</option><option value=\"sahil\">Sahil</option></select></div></div><div class=\"ptay\"><button class=\"nav-arrow\" id=\"ptPrev\" aria-label=\"Önceki ay\" disabled=\"\">‹</button><div class=\"ttl\">Ağustos 2026</div><button class=\"nav-arrow\" id=\"ptNext\" aria-label=\"Sonraki ay\">›</button></div></div><div class=\"banner ok\">Fazla mesai dönemi: 3 Ağu – 6 Eyl (haftalık). Rapor, izin ve bordro günü takvim ayına göre.</div><div class=\"banner ok\">Bu ayın 1 haftası da onaylandı. Puantajı kontrol edip onaylayabilirsiniz.</div><div class=\"seg\" style=\"margin:4px 0 12px\" id=\"ptSeg\"><button data-v=\"sol\" class=\"on\">Muhasebe</button><button data-v=\"sag\" class=\"\">Ödemeler</button><button data-v=\"veri\" class=\"\">Veri girişi</button></div><div class=\"tbl-wrap\"><table class=\"pt\"><thead><tr><th class=\"l\"><button class=\"kfb \" data-kft=\"sol\" data-kfc=\"sgk\" title=\"Filtrele / sırala\">SGK şube<i>▾</i></button></th><th class=\"l\"><button class=\"kfb \" data-kft=\"sol\" data-kfc=\"ad\" title=\"Filtrele / sırala\">Ad soyad<i>▾</i></button></th><th class=\"\"><button class=\"kfb \" data-kft=\"sol\" data-kfc=\"gorev\" title=\"Filtrele / sırala\">Görev<i>▾</i></button></th><th class=\"\"><button class=\"kfb \" data-kft=\"sol\" data-kfc=\"sekil\" title=\"Filtrele / sırala\">Şekil<i>▾</i></button></th><th class=\"\"><button class=\"kfb \" data-kft=\"sol\" data-kfc=\"giris\" title=\"Filtrele / sırala\">Giriş<i>▾</i></button></th><th class=\"\"><button class=\"kfb \" data-kft=\"sol\" data-kfc=\"cikis\" title=\"Filtrele / sırala\">Çıkış<i>▾</i></button></th><th class=\"\"><button class=\"kfb \" data-kft=\"sol\" data-kfc=\"rapor\" title=\"Filtrele / sırala\">Rapor<i>▾</i></button></th><th class=\"\"><button class=\"kfb \" data-kft=\"sol\" data-kfc=\"ui\" title=\"Filtrele / sırala\">Ücr. izin<i>▾</i></button></th><th class=\"\"><button class=\"kfb \" data-kft=\"sol\" data-kfc=\"pg\" title=\"Filtrele / sırala\">Part gün<i>▾</i></button></th><th class=\"\"><button class=\"kfb \" data-kft=\"sol\" data-kfc=\"yi\" title=\"Filtrele / sırala\">Yıllık izin<i>▾</i></button></th><th class=\"\"><button class=\"kfb \" data-kft=\"sol\" data-kfc=\"b\" title=\"Filtrele / sırala\">Bayram<i>▾</i></button></th><th class=\"\"><button class=\"kfb \" data-kft=\"sol\" data-kfc=\"gun\" title=\"Filtrele / sırala\">Gün sayısı<i>▾</i></button></th></tr></thead><tbody><tr class=\"click \" data-mpid=\"ayse-demir\"><td class=\"l\">Merkez</td><td class=\"l\"><b>AYŞE DEMİR</b></td><td>V. Müdür</td><td>Tam</td><td>1.02.2026</td><td></td><td></td><td></td><td></td><td></td><td></td><td>30</td></tr><tr class=\"click \" data-mpid=\"berkay-ekici\"><td class=\"l\">Merkez</td><td class=\"l\"><b>BERKAY EKİCİ</b></td><td>Sürücü</td><td>Tam</td><td>12.06.2026</td><td>2.10.2026</td><td></td><td></td><td></td><td></td><td></td><td>30</td></tr><tr class=\"click cikis\" data-mpid=\"eda-elibol\"><td class=\"l\">Merkez</td><td class=\"l\"><b>EDA ELİBOL</b></td><td>Mutfak</td><td>Tam</td><td>1.03.2026</td><td>18.08.2026</td><td></td><td></td><td></td><td></td><td></td><td>18</td></tr><tr class=\"click \" data-mpid=\"emre-asma\"><td class=\"l\">Merkez</td><td class=\"l\"><b>EMRE AŞMA</b></td><td>Sürücü</td><td>Tam</td><td>15.06.2026</td><td></td><td></td><td></td><td></td><td></td><td></td><td>30</td></tr><tr class=\"click \" data-mpid=\"fatma-ozturk\"><td class=\"l\">Merkez</td><td class=\"l\"><b>FATMA ÖZTÜRK</b><span class=\"tag warn\">part gün girilmedi</span></td><td>Mutfak</td><td>Part</td><td>1.06.2026</td><td></td><td></td><td></td><td></td><td></td><td></td><td>30</td></tr><tr class=\"click \" data-mpid=\"mehmet-karakaya\"><td class=\"l\">Merkez</td><td class=\"l\"><b>MEHMET KARAKAYA</b></td><td>R. Müdür</td><td>Tam</td><td>5.01.2026</td><td></td><td></td><td></td><td></td><td></td><td></td><td>30</td></tr><tr class=\"click \" data-mpid=\"osman-celik\"><td class=\"l\">Merkez</td><td class=\"l\"><b>OSMAN ÇELİK</b></td><td>Mutfak</td><td>Tam</td><td>10.03.2026</td><td></td><td></td><td></td><td></td><td></td><td></td><td>30</td></tr></tbody></table></div><div class=\"legend\"><span><i style=\"background:var(--yel)\"></i>Çıkış yapan</span><span>Gün sayısı = tam ay 30; rapor/ücretsiz izin varsa ayın takvim günü − rapor − ücretsiz izin, en çok 30 (ay ortasında giriş/çıkışta çalışılan takvim günü); part çalışanlarda gün sayısı = part gün</span></div><p class=\"note yardim\">Maaş, rapor ve izinler kişinin SGK şubesinde. Fazla mesai muhasebeye gitmez; Ödemeler tarafında, çalıştığı her şubede ayrı hesaplanır. Diğer şubelerdeki izin günleri o şubeler ayı kapattıkça eklenir. \"+ şube adı\" etiketi o şubeden gelen günlerin eklendiğini gösterir.</p><div class=\"actions\" style=\"margin-top:12px\"><button class=\"btn grow\" id=\"pdfB\">Muhasebe çıktısı · PDF / fotoğraf / WhatsApp</button></div><div class=\"sec\">Onay öncesi kontrol · muhasebe grubundan teyit edin</div><div class=\"card kcard\"><div class=\"kt sari\"><div class=\"kth\"><b>Rapor, izinler, bayram, SGK giriş ve çıkışlar · 1</b><span>Her birini muhasebe WhatsApp grubundaki bilgiyle karşılaştırıp işaretleyin. Hepsi işaretlenmeden onaylanamaz.</span></div><div class=\"bkl\"><label class=\"\"><input type=\"checkbox\" data-bk=\"c_eda-elibol\"><span><b class=\"ad\">EDA ELİBOL</b><span class=\"nt\"><em>SGK çıkış</em> · 18.08.2026</span><span class=\"alt\">Mutfak · SGK: Merkez</span></span></label></div></div></div><p class=\"note\" style=\"color:var(--bad);font-weight:600\">Onay öncesi kontrolde 1 madde işaretlenmedi.</p><div class=\"row2\"><button class=\"btn primary grow\" disabled=\"\" title=\"Önce önceki ay onaylanmalı\">Onayla ve kilitle</button></div>",
+   "tabs": "<div class=\"tabs-in\" id=\"tabsIn\"><button data-tab=\"cizelge\" class=\"\">Çizelge</button><button data-tab=\"personel\" class=\"\">Personel</button><button data-tab=\"puantaj\" class=\"on\">Puantaj</button><button data-tab=\"yonetim\" class=\"\">Yönetim</button></div>",
+   "sheet": "",
+   "toast": ""
+  }
+ },
+ "yazilanBelgeler": {
+  "puantaj/merkez/aylar/2026-08": {
+   "sube": "merkez",
+   "ay": "2026-08",
+   "sag": {
+    "osman-celik": {
+     "kalan": 37000
+    },
+    "ayse-demir": {
+     "kalan": 45000
+    },
+    "emre-asma": {
+     "kalan": 34405
+    },
+    "fatma-ozturk": {
+     "kalan": 20000
+    },
+    "mehmet-karakaya": {
+     "kalan": 60000
+    },
+    "berkay-ekici": {
+     "kalan": 0
+    },
+    "eda-elibol": {
+     "kalan": 0
+    }
+   },
+   "kilitli": true,
+   "guncellendi": "2026-10-14T07:00:00.000Z"
+  }
+ },
+ "konsolHatalari": []
+}

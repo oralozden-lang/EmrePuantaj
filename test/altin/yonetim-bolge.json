@@ -1,0 +1,15 @@
+{
+ "ad": "yonetim-bolge",
+ "hata": "",
+ "ekranlar": {
+  "son": {
+   "top": "<div class=\"top-row\"><div class=\"grow\"><button class=\"sube-btn eyebrow\" id=\"subeBtn\">Bölge müdürü · Test Bölge</button><h1>Yönetim</h1></div><button class=\"icon-btn yardim-btn \" id=\"yardimBtn\" aria-label=\"Açıklamalar\" title=\"Açıklamaları göster / gizle\">?</button><button class=\"icon-btn\" id=\"hesapBtn\" aria-label=\"Hesap\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"><circle cx=\"12\" cy=\"8\" r=\"4\"></circle><path d=\"M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6\"></path></svg></button></div>",
+   "view": "<div class=\"seg\" style=\"margin:4px 0 12px\" id=\"ySeg\"><button data-v=\"subeler\" class=\"on\">Şubeler</button><button data-v=\"kullanicilar\" class=\"\">Kullanıcılar</button><button data-v=\"iscilik\" class=\"\">İşçilik</button><button data-v=\"iban\" class=\"\">IBAN</button></div><p class=\"note\" style=\"margin:0 0 8px\">Şube ayarlarını işveren değiştirir.</p><div class=\"card list\"><button class=\"row\"><div class=\"av\">M</div><div class=\"m\"><b>Merkez</b><span>11:00–00:30 · günlük 8,5 sa · FM 165 ₺/sa</span></div></button><button class=\"row\"><div class=\"av\">S</div><div class=\"m\"><b>Sahil</b><span>11:00–00:30 · günlük 8,5 sa · FM 165 ₺/sa</span></div></button></div>",
+   "tabs": "<div class=\"tabs-in\" id=\"tabsIn\"><button data-tab=\"cizelge\" class=\"\">Çizelge</button><button data-tab=\"personel\" class=\"\">Personel</button><button data-tab=\"puantaj\" class=\"\">Puantaj</button><button data-tab=\"yonetim\" class=\"on\">Yönetim</button></div>",
+   "sheet": "",
+   "toast": ""
+  }
+ },
+ "yazilanBelgeler": {},
+ "konsolHatalari": []
+}
