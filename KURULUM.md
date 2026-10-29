@@ -17,7 +17,7 @@ Uygulama, Firebase'de (giriş + veritabanı) çalışan bir web uygulamasıdır.
 
 ## 2. Siteyi yayınlama (GitHub Pages, ücretsiz)
 1. github.com'da hesap açın → **New repository** → ad: `puantaj` → Public → Create.
-2. **Add file → Upload files** → şu dosyaları sürükleyin: `index.html, app.js, config.js, style.css, manifest.json, icon-192.png, icon-512.png` → **Commit**.
+2. **Add file → Upload files** → şu dosyaları sürükleyin: `index.html, js/ (klasör), config.js, style.css, manifest.json, icon-192.png, icon-512.png` → **Commit**.
 3. Depoda **Settings → Pages → Branch: main / (root) → Save**. Birkaç dakika sonra adres çıkar: `https://KULLANICIADINIZ.github.io/puantaj/`
 4. Firebase'de **Authentication → Settings → Authorized domains → Add domain** → `KULLANICIADINIZ.github.io` ekleyin.
 
@@ -120,7 +120,7 @@ Oyun alanında "Kimliği doğrulanmış" seçip UID girerek şunları deneyin:
 - Şube ayarlarındaki mesai / ücret değişikliği o aydan itibaren geçerlidir; önceki aylar eski ayarla hesaplanır.
 
 ## Güncelleme yayınlarken
-- `app.js` içindeki `APP_SURUM` sayısını ve `index.html` içindeki `app.js?v=` sayısını bir artırın.
+- `js/durum.js` içindeki `APP_SURUM` sayısını ve `index.html` içindeki `js/main.js?v=` sayısını bir artırın.
 - İşveren yeni sürümü açınca `sistem/surum` yükselir; eski sürümle açık kalan cihazlar kayıt yapamaz, "Uygulama güncellendi" ekranında Yenile'ye basar.
 - `firestore.rules` değiştiyse Firebase → Firestore → Kurallar'a yapıştırıp **Yayınla**.
 - Eski bir sürüme geri dönülürse önce Firestore'da `sistem/surum.min` değerini o sürümün `APP_SURUM` sayısına indirin; yoksa herkes "güncellendi" ekranında kalır.

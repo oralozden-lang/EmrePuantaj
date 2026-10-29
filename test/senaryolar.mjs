@@ -34,6 +34,26 @@ export const SENARYOLAR = [
   { ad: 'gecen-haftayi-kopyala-isveren', girisYapan: 'admin', adim: async (p, k) => {
     await p.click('#copyW'); await bekle(p); await k('kopya-paneli'); await p.click('#cYes'); await bekle(p, 1500);
   } },
+  // --- Hücre seçimi (SEL) ve dokunmatik kopyala modu (MOD) yolları ---
+  { ad: 'secim-aralik-sil-sube', girisYapan: 'sube1', adim: async (p, k) => {
+    const h = (pid, i) => `button.cell[data-p="${pid}"][data-i="${i}"]`;
+    await p.click(h('mehmet-karakaya', 0)); await p.click(h('mehmet-karakaya', 1), { modifiers: ['Shift'] }); await bekle(p, 300); await k('secili');
+    await p.keyboard.press('Delete'); await bekle(p, 1500);
+  } },
+  { ad: 'secim-yapistir-tsv-sube', girisYapan: 'sube1', adim: async (p, k) => {
+    await p.click('button.cell[data-p="osman-celik"][data-i="3"]'); await bekle(p, 200);
+    await p.evaluate(() => { const d = new DataTransfer(); d.setData('text/plain', '11:00\t19:30\t16:00\t00:30'); document.dispatchEvent(new ClipboardEvent('paste', { clipboardData: d, bubbles: true, cancelable: true })); });
+    await bekle(p, 1500); await k('yapistirildi');
+    await p.keyboard.press('Escape'); await bekle(p, 300);
+  } },
+  { ad: 'dokunmatik-hucre-kopyala-modu-sube', girisYapan: 'sube1', adim: async (p, k) => {
+    const kaynak = 'button.cell[data-p="mehmet-karakaya"][data-i="0"]', hedef = 'button.cell[data-p="osman-celik"][data-i="4"]';
+    await p.evaluate((sel) => { const el = document.querySelector(sel); const r = el.getBoundingClientRect(); el.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, pointerType: 'touch', clientX: r.x + 5, clientY: r.y + 5 })); }, kaynak);
+    await bekle(p, 800); await k('kopya-modu');
+    await p.evaluate((sel) => { const el = document.querySelector(sel); el.dispatchEvent(new PointerEvent('pointerup', { bubbles: true, pointerType: 'touch' })); el.click(); }, kaynak);
+    await p.evaluate((sel) => document.querySelector(sel).click(), hedef); await bekle(p, 1500); await k('yapistirildi');
+    await p.click('#modB'); await bekle(p, 500);
+  } },
   { ad: 'personel-listesi-isveren', girisYapan: 'admin', adim: async (p) => { await sekme(p, 'personel'); } },
   { ad: 'personel-listesi-sube', girisYapan: 'sube1', adim: async (p) => { await sekme(p, 'personel'); } },
   // "Puantaj" sekmesi seçili şubenin ayrıntısını açar (ilk açık ay: Ağustos); "‹ Şubeler" listeye döner

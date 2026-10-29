@@ -1,0 +1,36 @@
+// Giriş noktası: modüller yükleme sırasıyla içe aktarılır, sonra uygulama başlar.
+import './sabitler.js';
+import './firebase.js';
+import './durum.js';
+import './yardimci.js';
+import './saat.js';
+import './rol.js';
+import './hesap.js';
+import './cok-sube.js';
+import './yazma.js';
+import './kilit.js';
+import './hucre-yazma.js';
+import './oturum.js';
+import './subeler.js';
+import './cerceve.js';
+import './panel.js';
+import './cizelge.js';
+import './hafta-kapatma.js';
+import './personel.js';
+import './ay-sonu.js';
+import './takip.js';
+import './puantaj.js';
+import './kolon-filtre.js';
+import './veri-girisi.js';
+import './puantaj-islem.js';
+import './cikti.js';
+import './bordro.js';
+import './paylas.js';
+import './yonetim.js';
+import './excel-aktar.js';
+import './yedek.js';
+import './iscilik.js';
+import './kullanici.js';
+import { bootstrap } from './oturum.js';
+
+bootstrap();
