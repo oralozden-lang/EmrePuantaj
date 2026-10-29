@@ -1,10 +1,12 @@
+// TEST projesi (puantaj-test). Orijinal canlı proje bu dalda kullanılmaz.
+// Not: apiKey tarayıcıya gömülen, herkese açık türden bir bilgidir; erişimi güvenlik kuralları ve Authentication belirler.
 export const firebaseConfig = {
-  apiKey: "AIzaSyBT5Fp2ZsNTDcUXkru9M-w2m0ukrvxBFGE",
-  authDomain: "puantaj-merkezi.firebaseapp.com",
-  projectId: "puantaj-merkezi",
-  storageBucket: "puantaj-merkezi.firebasestorage.app",
-  messagingSenderId: "1081196426681",
-  appId: "1:1081196426681:web:c6dbe325b6d5d1030cb268",
+  apiKey: "AIzaSyAgMRWSw87TnCLCXgqdonDrP2eNd4_1oQg",
+  authDomain: "puantaj-test.firebaseapp.com",
+  projectId: "puantaj-test",
+  storageBucket: "puantaj-test.firebasestorage.app",
+  messagingSenderId: "806646499032",
+  appId: "1:806646499032:web:1547f193076fbe2a2f39ad",
 };
 
 export const GIRIS_ALANI = "puantaj-merkezi.app";
