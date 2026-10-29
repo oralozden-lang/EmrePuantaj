@@ -63,6 +63,22 @@
   --iyi:#6FD3A0;--kotu:#F08A8A;
 }
 
+
+/* ---- B2 / B3: degrade (açık yeşilden koyuya) ---- */
+.tema-b2{--grad:linear-gradient(135deg,#2F9E6C 0%,#16765E 52%,#0B4F45 100%);--glow:rgba(14,90,78,.32)}
+.tema-b2.koyu{--grad:linear-gradient(135deg,#1F7F5B 0%,#136150 52%,#0A3C35 100%);--glow:rgba(0,0,0,.45)}
+.tema-b3{--grad:linear-gradient(135deg,#4CC38A 0%,#1E9473 48%,#0A5448 100%);--glow:rgba(18,120,96,.38)}
+.tema-b3.koyu{--grad:linear-gradient(135deg,#2E9E6E 0%,#157A62 48%,#0A433B 100%);--glow:rgba(0,0,0,.45)}
+.telefon.tema-b2 .ust,.telefon.tema-b3 .ust{background:var(--grad);box-shadow:0 8px 22px var(--glow);border-bottom:0}
+.telefon.tema-b2 .gun.bugun,.telefon.tema-b3 .gun.bugun{background:var(--grad);box-shadow:0 5px 12px var(--glow)}
+.telefon.tema-b2 .kpi div.vurgulu,.telefon.tema-b3 .kpi div.vurgulu{background:var(--grad);border-color:transparent;box-shadow:0 10px 22px var(--glow)}
+.telefon.tema-b2 .birincil,.telefon.tema-b3 .birincil{background:var(--grad);box-shadow:0 10px 22px var(--glow)}
+.telefon.tema-b2 .nav button.aktif .ikon-kutu,.telefon.tema-b3 .nav button.aktif .ikon-kutu{background:var(--grad);color:#fff;box-shadow:0 5px 12px var(--glow)}
+.telefon.tema-b2 .gun.bugun,.telefon.tema-b2 .gun.bugun b,.telefon.tema-b3 .gun.bugun,.telefon.tema-b3 .gun.bugun b,.telefon.tema-b2 .kpi div.vurgulu small,.telefon.tema-b2 .kpi div.vurgulu b,.telefon.tema-b3 .kpi div.vurgulu small,.telefon.tema-b3 .kpi div.vurgulu b,.telefon.tema-b2 .birincil,.telefon.tema-b3 .birincil,.telefon.tema-b2 .parca button.aktif,.telefon.tema-b3 .parca button.aktif{color:#fff!important}
+.telefon.tema-b2 .nav,.telefon.tema-b3 .nav{box-shadow:0 -6px 20px rgba(0,0,0,.05)}
+.telefon.tema-b2 .parca button.aktif,.telefon.tema-b3 .parca button.aktif{background:var(--grad);color:#fff;box-shadow:0 5px 12px var(--glow)}
+.telefon.tema-b2 .ekle,.telefon.tema-b3 .ekle{background:linear-gradient(135deg,var(--vurgu-yumusak),color-mix(in srgb,var(--vurgu) 16%,var(--yuz)))}
+
 /* ============ Sayfa çerçevesi ============ */
 *{box-sizing:border-box}
 html,body{margin:0}
@@ -206,10 +222,12 @@ body.koyu-sayfa{background:#0A0D14}
 </head>
 <body>
 <div class="kontrol" id="kontrol">
-  <button data-yon="a" class="secili">A İndigo</button>
   <button data-yon="b">B Teal</button>
+  <button data-yon="b2" class="secili">B Degrade</button>
+  <button data-yon="b3">B Canlı degrade</button>
+  <button data-yon="a">A İndigo</button>
   <button data-yon="c">C Lacivert</button>
-  <button data-yon="yan">Yan yana</button>
+  <button data-yon="yan">Karşılaştır</button>
   <span class="ayrac"></span>
   <button data-mod="acik" class="secili">Açık</button>
   <button data-mod="koyu">Koyu</button>
@@ -284,7 +302,7 @@ const SEKMELER = [['cizelge', 'Çizelge', 'takvim'], ['personel', 'Personel', 'k
 
 function telefon(tema, mod) {
   const kok = document.createElement('div');
-  kok.className = `telefon tema-${tema} ${mod === 'koyu' ? 'koyu' : ''}`;
+  kok.className = `telefon ${SINIF[tema]} ${mod === 'koyu' ? 'koyu' : ''}`;
   let ekran = 'cizelge';
   const ciz = () => {
     const cizelge = ekran === 'cizelge';
@@ -325,12 +343,13 @@ function telefon(tema, mod) {
   return kok;
 }
 
-let yon = new URLSearchParams(location.search).get('yon') || 'a';
+let yon = new URLSearchParams(location.search).get('yon') || 'b2';
 let mod = new URLSearchParams(location.search).get('mod') || 'acik';
-const AD = { a: 'A · İndigo modern', b: 'B · Teal sakin', c: 'C · Lacivert düzenli' };
+const AD = { a: 'A · İndigo modern', b: 'B · Teal (düz)', b2: 'B2 · Teal degrade', b3: 'B3 · Teal canlı degrade', c: 'C · Lacivert düzenli' };
+const SINIF = { a: 'tema-a', b: 'tema-b', b2: 'tema-b tema-b2', b3: 'tema-b tema-b3', c: 'tema-c' };
 function render() {
   const sahne = document.getElementById('sahne'); sahne.innerHTML = '';
-  (yon === 'yan' ? ['a', 'b', 'c'] : [yon]).forEach((t) => {
+  (yon === 'yan' ? ['b', 'b2', 'b3'] : [yon]).forEach((t) => {
     const w = document.createElement('div');
     w.innerHTML = `<p class="etiket">${AD[t]}</p>`; w.appendChild(telefon(t, mod)); sahne.appendChild(w);
   });
