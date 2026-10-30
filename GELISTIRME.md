@@ -30,4 +30,5 @@ Biçim: `npx prettier --config .prettierrc.json --write "js/*.js"`.
 ## Ortamlar
 - `main`: orijinal canlı Firebase projesini gösterir; **dokunulmaz**.
 - `claude/modullere-bol`: test projesi `puantaj-test` (`config.js`). Vercel üretim dalı budur.
+- GitHub Pages (Vercel adresi bazı operatörlerde mobil veride açılmıyor): Settings → Pages → Branch: `claude/modullere-bol` / (root). Adres `https://oralozden-lang.github.io/emrepuantaj/`. Bütün yollar göreli olduğu için alt klasörde çalışır; `.nojekyll` Jekyll işlemesini kapatır. Yeni adres Firebase Authentication → Yetkili alan adları listesine eklenmeli; PWA kısayolu yeniden eklenmeli.
 - Test verisini yüklemek: `/araclar/yukle.html` (Yönetim → Yedek dosyasını seçer; yalnızca test projesinde çalışır).
