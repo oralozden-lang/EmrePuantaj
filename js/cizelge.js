@@ -159,12 +159,10 @@ export function renderCizelge() {
   });
 }
 export function haftaMenu(wid) {
-  const liste = isIsveren() && haftaDurumu(wid) === 'acik' && !weekDays(wid).some(kesinAy);
   return `<div class="islem-menu" id="islemMenu" hidden>
     <button class="menu-satir" id="copyW">Geçen haftayı kopyala<small>Geçen haftanın listesi ve saatleri</small></button>
     <button class="menu-satir" id="undoB" ${undo.length ? '' : 'disabled'}>Geri al<small>Son değişikliği geri al</small></button>
-    <button class="menu-satir" id="shareB">Paylaş<small>Çizelgeyi görsel olarak gönder</small></button>
-    ${liste ? '<button class="menu-satir" id="hListe">Listeyi hücrelerden geri kur</button>' : ''}</div>`;
+    <button class="menu-satir" id="shareB">Paylaş<small>Çizelgeyi görsel olarak gönder</small></button></div>`;
 }
 export function degerYazi(v) {
   return isShift(v) ? v.replace('-', ' – ') : v && KOD[v] ? KOD[v].ad : 'Boş';

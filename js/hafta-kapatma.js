@@ -1,16 +1,16 @@
 // hafta-kapatma.js — app.js (v180) satırları 899-943. Otomatik bölündü; davranış değişmedi.
-import { doc, getDoc } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+import { doc } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 import { AY, AYK, BASLANGIC_AY, GUNU, kesinAy } from './sabitler.js';
-import { db, setDoc } from './firebase.js';
+import { db } from './firebase.js';
 import { S } from './durum.js';
 import { addDays, ayKey, esc, mondayOf, parse, rangeLabel, today, weekDays, ymd } from './yardimci.js';
 import { isIsveren, isSube, puantajYetki } from './rol.js';
 import { sube } from './hesap.js';
 import { kadroDoc } from './kadro.js';
-import { gerekliSube, weekRef } from './yazma.js';
+import { gerekliSube } from './yazma.js';
 import { haftaDurumu } from './hucre-yazma.js';
 import { byId, render } from './cerceve.js';
-import { closeSheet, openSheet, toast } from './panel.js';
+import { closeSheet, openSheet } from './panel.js';
 import { UI_cizelge } from './cizelge.js';
 import { haftaKapatPanel } from './hafta-kontrol.js';
 import { haftaGeriPanel, haftaKilidiAc, haftaOnayPanel } from './hafta-islem.js';
@@ -141,34 +141,6 @@ export function haftaIslemBagla(wid) {
     haftaKilidiAc(wid);
   });
   on('hKay', () => haftaKayitPanel(wid));
-  on('hListe', async () => {
-    const e = byId('hListe');
-    if (!e.dataset.ok) {
-      e.dataset.ok = '1';
-      e.textContent = 'Emin misin? Tekrar dokun';
-      return;
-    }
-    const sid = S.subeId;
-    e.disabled = true;
-    try {
-      const s0 = await getDoc(weekRef(wid, sid));
-      const c = (s0.exists() && s0.data().cells) || {};
-      const eski = Array.isArray(s0.exists() && s0.data().kadro) ? s0.data().kadro : [];
-      const ids = Object.keys(c).filter(pid => Object.values(c[pid] || {}).some(v => v));
-      const sirali = [...eski.filter(x => ids.includes(x)), ...ids.filter(x => !eski.includes(x))];
-      if (!sirali.length) {
-        toast('Hücre bulunamadı, liste değişmedi.');
-        e.disabled = false;
-        return;
-      }
-      await setDoc(weekRef(wid, sid), { kadro: sirali }, { merge: true });
-      toast(`Liste geri kuruldu: ${sirali.length} kişi.`);
-    } catch (x) {
-      console.error(x);
-      toast('Geri kurulamadı.');
-    }
-    render();
-  });
 }
 export function haftaKayitPanel(wid, H = S.haftalar) {
   const kay = ((H[wid] || {}).kayit || []).slice().sort((a, b) => String(b.t).localeCompare(String(a.t)));
